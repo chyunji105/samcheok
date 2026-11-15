@@ -421,7 +421,7 @@ body.sb-collapsed .brand-text { display: none; }
 .bento-where .fact b { font-size: 0.85rem; letter-spacing: 0.04em; }
 
 /* ---------- 가볼 곳 ---------- */
-.spots-hint { margin: -16px 0 20px; font-size: 1.05rem; opacity: .85; }
+.spots-hint { margin: -26px 0 22px; font-size: 1.05rem; opacity: .85; }
 .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
 .chip {
   border: 2px solid var(--sea);
