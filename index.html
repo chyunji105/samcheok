@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>삼척, 같이 가자</title>
+  <meta name="description" content="삼척을 처음 듣는 친구들을 위한 삼척 소개 페이지" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 사이드바 -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <a href="#top" class="brand">
+        <span class="side-text brand-text">삼척<span>.</span></span>
+      </a>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-controls="sidebar" aria-expanded="true" aria-label="메뉴 접기">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+      </button>
+    </div>
+
+    <nav class="side-nav" aria-label="페이지 메뉴">
+      <a href="#top" class="side-link active" data-label="처음으로"><span class="side-icon">🏠</span><span class="side-text">처음으로</span></a>
+      <a href="#where" class="side-link" data-label="삼척이 어디야?"><span class="side-icon">📍</span><span class="side-text">삼척이 어디야?</span></a>
+      <a href="#spots" class="side-link" data-label="가볼 곳"><span class="side-icon">🌊</span><span class="side-text">가볼 곳</span></a>
+      <a href="#food" class="side-link" data-label="먹을 것"><span class="side-icon">🐟</span><span class="side-text">먹을 것</span></a>
+      <a href="#season" class="side-link" data-label="언제 갈까"><span class="side-icon">🌸</span><span class="side-text">언제 갈까</span></a>
+      <a href="#course" class="side-link" data-label="1박 2일 코스"><span class="side-icon">🧭</span><span class="side-text">1박 2일 코스</span></a>
+      <a href="#go" class="side-link" data-label="가는 법"><span class="side-icon">🚌</span><span class="side-text">가는 법</span></a>
+    </nav>
+
+    <p class="sidebar-foot side-text">삼척 오면 연락해 👋</p>
+  </aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <main class="main">
+
+  <!-- 고정 헤더: 지금 보는 섹션 + 읽은 정도 -->
+  <header class="topbar" id="topbar" aria-hidden="true">
+    <div class="topbar-inner">
+      <span class="topbar-icon" id="topbarIcon">🏠</span>
+      <span class="topbar-title" id="topbarTitle">처음으로</span>
+      <a href="#top" class="topbar-top" tabindex="-1">맨 위로 ↑</a>
+    </div>
+    <div class="topbar-progress"><span id="topbarBar"></span></div>
+  </header>
+
+  <!-- 히어로 -->
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow drop" style="--i:0">강원도 동해안 끝자락</p>
+        <h1 class="drop" style="--i:1">삼척, 같이 가자</h1>
+        <p class="lead drop" style="--i:2">바다는 눈부시게 파랗고, 땅 밑엔 거대한 동굴이 숨어 있는 곳. <br />내가 좋아하는 도시를 소개할게.</p>
+        <div class="hero-cta drop" style="--i:3">
+          <a href="#spots" class="btn">구경하러 가기 ↓</a>
+          <a href="#course" class="btn btn-ghost">1박 2일 코스 보기</a>
+        </div>
+      </div>
+    </div>
+    <svg class="waves" viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
+      <path class="w1" d="M0,96 C240,150 480,40 720,80 C960,120 1200,60 1440,96 L1440,160 L0,160 Z" />
+      <path class="w2" d="M0,120 C260,90 520,150 760,120 C1000,90 1240,140 1440,118 L1440,160 L0,160 Z" />
+    </svg>
+  </section>
+
+  <!-- 어디야 -->
+  <section id="where" class="section">
+    <h2 class="title">삼척이 어디야?</h2>
+    <div class="where-grid bento-where">
+      <div class="map-card">
+        <svg viewBox="0 0 320 350" class="mini-map" role="img" aria-label="남한 지도에서 삼척 위치. 동해안 북쪽, 강원도 남쪽 끝에 있어.">
+          <path class="land" d="M15.0,63.2 L29.0,58.9 L44.0,49.6 L55.0,43.4 L65.0,29.1 L87.5,26.7 L102.5,26.7 L115.0,27.3 L128.5,8.1 L134.0,21.7 L140.0,36.0 L147.5,49.6 L156.0,60.8 L162.5,70.1 L165.5,77.5 L170.0,83.7 L174.0,93.0 L177.5,105.4 L180.0,119.7 L181.5,136.4 L180.0,151.9 L179.0,164.3 L184.0,167.4 L189.0,170.5 L186.0,182.9 L182.5,198.4 L177.5,210.8 L170.0,223.2 L160.0,229.4 L147.5,232.5 L140.0,241.8 L130.0,239.9 L117.5,239.9 L105.0,244.9 L95.0,251.1 L87.5,257.3 L77.5,264.7 L65.0,263.5 L52.5,270.9 L40.0,275.9 L32.5,272.8 L25.0,260.4 L30.0,244.9 L27.5,232.5 L32.5,217.0 L35.0,198.4 L42.5,182.9 L40.0,170.5 L37.5,151.9 L30.0,136.4 L17.5,124.0 L25.0,111.6 L42.5,111.6 L50.0,105.4 L42.5,93.0 L40.0,80.6 L37.5,70.1 L27.5,68.2 Z" />
+          <ellipse class="land" cx="37.5" cy="332.9" rx="20" ry="10.5" />
+          <circle class="land" cx="253.5" cy="78.1" r="4" />
+          <circle class="land" cx="303.5" cy="93.6" r="2.5" />
+          <circle cx="59" cy="73" r="5" class="dot-seoul" />
+          <text x="51" y="77" class="map-label" text-anchor="end">서울</text>
+          <circle cx="163.5" cy="221.3" r="4" class="dot-seoul" />
+          <text x="157" y="214" class="map-label" text-anchor="end">부산</text>
+          <circle cx="166" cy="81" r="8" class="dot-pulse" />
+          <circle cx="166" cy="81" r="6" class="dot-here" />
+          <text x="178" y="76" class="map-label strong">삼척!</text>
+          <text x="253.5" y="68" class="map-label" text-anchor="middle">울릉도</text>
+          <text x="303.5" y="110" class="map-label" text-anchor="middle">독도</text>
+          <text x="232" y="170" class="map-label sea">동해</text>
+          <text x="70" y="336" class="map-label">제주도</text>
+        </svg>
+      </div>
+      <div class="facts">
+        <div class="fact"><b>위치</b><span>강원특별자치도 남쪽 바닷가.<br />위로는 동해시, 아래로는 경북 울진.</span></div>
+        <div class="fact"><b>한 줄 요약</b><span>“바다 + 동굴 + 해산물”.<br />셋 다 좋아하면 무조건 좋아할 곳.</span></div>
+        <div class="fact"><b>별명</b><span>동굴의 도시.<br />시 곳곳에 크고 작은 석회암 동굴이 많아.</span></div>
+        <div class="fact"><b>분위기</b><span>강릉·속초보다 덜 붐벼서 조용하게 바다 보기 좋아.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 가볼 곳 -->
+  <section id="spots" class="section alt">
+    <h2 class="title">여긴 꼭 가봐</h2>
+    <div class="filters" role="tablist">
+      <button class="chip active" data-filter="all">전체</button>
+      <button class="chip" data-filter="sea">🌊 바다</button>
+      <button class="chip" data-filter="cave">🦇 동굴</button>
+      <button class="chip" data-filter="history">🏯 역사</button>
+    </div>
+    <!-- 마우스를 올리면 카드가 옆 칸까지 커지면서 사진과 설명이 나옴 -->
+    <div class="cards spots">
+      <!-- 바다 -->
+      <div class="spot" data-cat="sea">
+        <article class="card" data-cat="sea" tabindex="0">
+          <div class="card-icon">🚡</div>
+          <h3>장호항 케이블카</h3>
+          <p class="card-summary">발밑이 투명한 바다 위 케이블카</p>
+          <div class="card-more">
+            <div class="more-inner">
+              <div class="spot-photo" data-icon="🚡"><img src="images/spots/jangho-cablecar.jpg" alt="장호항 케이블카 사진" loading="lazy" onerror="this.remove()" /></div>
+              <p>물이 맑아서 ‘한국의 나폴리’라고 불려.<br />여름엔 스노클링이랑 투명카누도 할 수 있어.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="spot" data-cat="sea">
+        <article class="card" data-cat="sea" tabindex="0">
+          <div class="card-icon">🚲</div>
+          <h3>해양레일바이크</h3>
+          <p class="card-summary">바닷가 따라 달리는 레일바이크</p>
+          <div class="card-more">
+            <div class="more-inner">
+              <div class="spot-photo" data-icon="🚲"><img src="images/spots/rail-bike.jpg" alt="해양레일바이크 사진" loading="lazy" onerror="this.remove()" /></div>
+              <p>중간에 조명 터널도 지나가서 생각보다 재밌어.<br />둘이서 페달 밟기 딱 좋아.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="spot" data-cat="sea">
+        <article class="card" data-cat="sea" tabindex="0">
+          <div class="card-icon">🪨</div>
+          <h3>초곡용굴촛대바위길</h3>
+          <p class="card-summary">바다 위로 놓인 산책로</p>
+          <div class="card-more">
+            <div class="more-inner">
+              <div class="spot-photo" data-icon="🪨"><img class="zoom" src="images/spots/chogok-trail.jpg" alt="초곡용굴촛대바위길 사진" loading="lazy" onerror="this.remove()" /></div>
+              <p>출렁다리를 건너면서 기암괴석이랑 파도를 바로 발아래로 볼 수 있어.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="spot" data-cat="sea">
+        <article class="card" data-cat="sea" tabindex="0">
+          <div class="card-icon">🌼</div>
+          <h3>맹방해변</h3>
+          <p class="card-summary">길고 넓은 모래사장</p>
+          <div class="card-more">
+            <div class="more-inner">
+              <div class="spot-photo" data-icon="🌼"><img src="images/spots/maengbang-beach.jpg" alt="맹방해변 사진" loading="lazy" onerror="this.remove()" /></div>
+              <p>봄엔 근처에 유채꽃이 쫙 펴.<br />BTS 앨범 사진 찍은 곳으로도 유명해졌어.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <!-- 동굴 -->
+      <div class="spot" data-cat="cave">
+        <article class="card" data-cat="cave" tabindex="0">
+          <div class="card-icon">🕳️</div>
+          <h3>환선굴</h3>
+          <p class="card-summary">천연기념물 거대 석회암 동굴</p>
+          <div class="card-more">
+            <div class="more-inner">
+              <div class="spot-photo" data-icon="🕳️"><img src="images/spots/hwanseongul.jpg" alt="환선굴 사진" loading="lazy" onerror="this.remove()" /></div>
+              <p>안에 들어가면 다른 행성 같아.<br />한여름에도 서늘하니까 겉옷 하나 챙겨.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="spot" data-cat="cave">
+        <article class="card" data-cat="cave" tabindex="0">
+          <div class="card-icon">🚝</div>
+          <h3>대금굴</h3>
+          <p class="card-summary">모노레일 타고 들어가는 동굴</p>
+          <div class="card-more">
+            <div class="more-inner">
+              <div class="spot-photo" data-icon="🚝"><img class="zoom" src="images/spots/daegeumgul.jpg" alt="대금굴 사진" loading="lazy" onerror="this.remove()" /></div>
+              <p>환선굴 근처에 있어.<br /><b>온라인 사전 예약</b>을 해야만 들어갈 수 있어.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <!-- 역사 -->
+      <div class="spot" data-cat="history">
+        <article class="card" data-cat="history" tabindex="0">
+          <div class="card-icon">🏯</div>
+          <h3>죽서루</h3>
+          <p class="card-summary">절벽 위 누각, 2023년 국보</p>
+          <div class="card-more">
+            <div class="more-inner">
+              <div class="spot-photo" data-icon="🏯"><img src="images/spots/jukseoru.jpg" alt="죽서루 사진" loading="lazy" onerror="this.remove()" /></div>
+              <p>오십천 절벽 위에 세워진 관동팔경 중 하나.<br />시내에 있어서 들르기 쉬워.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="spot" data-cat="history">
+        <article class="card" data-cat="history" tabindex="0">
+          <div class="card-icon">🦁</div>
+          <h3>이사부사자공원</h3>
+          <p class="card-summary">나무 사자 전설이 담긴 공원</p>
+          <div class="card-more">
+            <div class="more-inner">
+              <div class="spot-photo" data-icon="🦁"><img class="zoom zoom-left" src="images/spots/isabu-park.jpg" alt="이사부사자공원 사진" loading="lazy" onerror="this.remove()" /></div>
+              <p>신라 장군 이사부가 나무 사자로 우산국(지금의 울릉도)을 정벌했다는 이야기를 담았어.<br />전망이 시원해.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 먹을 것 -->
+  <section id="food" class="section">
+    <h2 class="title">이건 먹고 와야 해</h2>
+    <div class="cards cols-3">
+      <article class="card tone-food" tabindex="0">
+        <div class="card-icon">🐟</div>
+        <h3>회 한 접시</h3>
+        <p class="card-summary">항구에서 바로 뜨는 회</p>
+        <div class="card-more"><p>회센터에서 그날 잡힌 생선으로 추천받아서 먹는 게 진리.</p></div>
+      </article>
+      <article class="card tone-food" tabindex="0">
+        <div class="card-icon">🥗</div>
+        <h3>물회</h3>
+        <p class="card-summary">여름 바닷가 필수 메뉴</p>
+        <div class="card-more"><p>살얼음 국물에 회를 듬뿍 넣고, 마지막엔 국수 말아 먹어.</p></div>
+      </article>
+      <article class="card tone-food" tabindex="0">
+        <div class="card-icon">🦀</div>
+        <h3>대게</h3>
+        <p class="card-summary">겨울~봄 제철 별미</p>
+        <div class="card-more"><p>삼척항 근처 식당에서 먹을 수 있어.<br />살이 꽉 찬 제철에 가는 게 좋아.</p></div>
+      </article>
+      <article class="card tone-food" tabindex="0">
+        <div class="card-icon">🍲</div>
+        <h3>곰치국</h3>
+        <p class="card-summary">시원한 국물의 겨울 해장국</p>
+        <div class="card-more"><p>못생긴 생선 곰치에 묵은지를 넣고 끓인 삼척식 국.<br />요즘은 곰치가 귀해서 일찍 떨어지기도 해.</p></div>
+      </article>
+      <article class="card tone-food" tabindex="0">
+        <div class="card-icon">🍳</div>
+        <h3>도루묵</h3>
+        <p class="card-summary">알 톡톡 터지는 겨울 생선</p>
+        <div class="card-more"><p>동해안 겨울 대표 생선.<br />찌개나 구이로 먹는데 알이 꽉 차 있어.</p></div>
+      </article>
+      <article class="card tone-food" tabindex="0">
+        <div class="card-icon">🍜</div>
+        <h3>막국수</h3>
+        <p class="card-summary">강원도 왔으면 한 그릇</p>
+        <div class="card-more"><p>메밀면에 시원한 육수나 양념을 곁들인 강원도 대표 면 요리.<br />회 먹고 입가심으로 딱.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 계절 -->
+  <section id="season" class="section alt">
+    <h2 class="title">언제 가면 좋아?</h2>
+    <div class="cards">
+      <article class="card tone-spring" data-season="spring" tabindex="0">
+        <div class="card-icon">🌸</div>
+        <h3>봄</h3>
+        <p class="card-summary">꽃 사진 찍기 제일 좋은 때</p>
+        <div class="card-more"><p>맹방 유채꽃이랑 오십천 벚꽃이 펴.<br />노란 꽃밭 뒤로 바다가 보여.</p></div>
+      </article>
+      <article class="card tone-summer" data-season="summer" tabindex="0">
+        <div class="card-icon">☀️</div>
+        <h3>여름</h3>
+        <p class="card-summary">맑은 바다에 풍덩</p>
+        <div class="card-more"><p>장호항 스노클링하고 물회 먹기.<br />너무 더우면 서늘한 동굴로 피신!</p></div>
+      </article>
+      <article class="card tone-autumn" data-season="autumn" tabindex="0">
+        <div class="card-icon">🍁</div>
+        <h3>가을</h3>
+        <p class="card-summary">한적하게 돌아다니기 딱</p>
+        <div class="card-more"><p>사람 적고 날씨 좋아서 레일바이크나 바다 산책로 다니기 좋아.</p></div>
+      </article>
+      <article class="card tone-winter" data-season="winter" tabindex="0">
+        <div class="card-icon">❄️</div>
+        <h3>겨울</h3>
+        <p class="card-summary">일출과 따끈한 제철 음식</p>
+        <div class="card-more"><p>곰치국, 대게, 도루묵이 제철이야.<br />겨울 바다 일출도 끝내줘.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 코스 -->
+  <section id="course" class="section">
+    <h2 class="title">1박 2일 추천 코스</h2>
+    <div class="course-grid">
+      <div class="day-card">
+        <h3 class="day-title">1일차</h3>
+        <ol class="timeline">
+          <li><time>오전</time><span>삼척 도착 → <b>죽서루</b> 산책</span></li>
+          <li><time>점심</time><span>삼척항 근처에서 <b>곰치국</b> 또는 <b>물회</b></span></li>
+          <li><time>오후</time><span><b>환선굴</b> 탐험 (또는 예약해둔 대금굴)</span></li>
+          <li><time>저녁</time><span><b>이사부사자공원</b>에서 바다 보고, 회 한 접시</span></li>
+        </ol>
+      </div>
+      <div class="day-card">
+        <h3 class="day-title">2일차</h3>
+        <ol class="timeline">
+          <li><time>아침</time><span>바닷가에서 <b>일출</b> 보기 (일찍 일어날 수 있으면…)</span></li>
+          <li><time>오전</time><span><b>초곡용굴촛대바위길</b> 산책 → <b>해양레일바이크</b></span></li>
+          <li><time>점심</time><span><b>장호항</b>에서 해산물</span></li>
+          <li><time>오후</time><span><b>해상케이블카</b> 타고 집으로 출발</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 가는 법 -->
+  <section id="go" class="section alt">
+    <div class="split">
+      <div class="split-aside">
+        <h2 class="title">어떻게 가?</h2>
+        <p class="split-lead">서울에서 출발하면 버스·기차·자동차 모두 3시간 안팎이야.<br />같이 가는 인원이랑 일정에 맞게 골라봐.</p>
+        <p class="note">※ 운영시간·요금·예약 여부는 바뀔 수 있으니 출발 전에 꼭 한 번 확인해줘!</p>
+      </div>
+      <div class="stack">
+        <article class="card" tabindex="0">
+          <div class="card-icon">🚌</div>
+          <h3>고속버스</h3>
+          <p class="card-summary">서울에서 한 번에, 약 3시간</p>
+          <div class="card-more"><p>동서울터미널 등에서 삼척까지 바로 가는 버스가 있어.<br />갈아탈 필요 없어서 편해.</p></div>
+        </article>
+        <article class="card" tabindex="0">
+          <div class="card-icon">🚄</div>
+          <h3>기차</h3>
+          <p class="card-summary">동해역이나 삼척역으로</p>
+          <div class="card-more"><p><b>동해역</b>은 서울역에서 KTX로 약 2시간 40분, 내려서 버스·택시로 삼척까지.<br /><b>삼척역</b>은 동해선 KTX-이음·ITX-마음이 서.</p></div>
+        </article>
+        <article class="card" tabindex="0">
+          <div class="card-icon">🚗</div>
+          <h3>자동차</h3>
+          <p class="card-summary">여럿이면 제일 편한 방법</p>
+          <div class="card-more"><p>바닷가 명소들이 해안도로 따라 흩어져 있어서 차가 있으면 훨씬 자유롭게 다닐 수 있어.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>삼척 오면 연락해. 내가 안내할게 👋</p>
+    <p class="credit">표지 사진: 직접 촬영한 삼척 바다 · 명소 사진: 한국관광공사 한국관광콘텐츠랩</p>
+  </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
