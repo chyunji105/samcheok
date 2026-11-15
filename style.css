@@ -439,7 +439,7 @@ body.sb-collapsed .brand-text { display: none; }
 #spots { position: relative; z-index: 2; } /* 커진 카드가 아래 섹션 위로 올라오게 */
 .spots { grid-auto-rows: 200px; align-items: stretch; }
 .spot { position: relative; }
-.spot:hover, .spot:focus-within, .spot:has(.open) { z-index: 5; }
+.spot:focus-within, .spot:has(.open) { z-index: 5; }
 .spot.hide { display: none; }
 .spots .card {
   position: absolute;
@@ -450,11 +450,9 @@ body.sb-collapsed .brand-text { display: none; }
   transition: transform 0.3s ease, box-shadow 0.3s ease, width 0.35s ease;
 }
 .spot.grow-left .card { left: auto; right: 0; }
-.spot:hover .card,
 .spots .card:focus-visible,
 .spots .card.open { width: calc(200% + var(--gap, 22px)); }
 .spots .card h3 { transition: font-size 0.3s ease; }
-.spot:hover .card h3,
 .spots .card:focus-visible h3,
 .spots .card.open h3 { font-size: 1.35rem; }
 
@@ -526,7 +524,8 @@ body.sb-collapsed .brand-text { display: none; }
 @container main (max-width: 560px) {
   .spots { --gap: 16px; grid-auto-rows: auto; }
   .spots .card { position: relative; }
-  .spot:hover .card, .spots .card:focus-visible, .spots .card.open { width: 100%; }
+  .spots .card:focus-visible, .spots .card.open { width: 100%; }
+  .spot:hover .card { width: 100% !important; }
   .bento-where { grid-template-columns: 1fr; }
   .bento-where .map-card { grid-column: auto; }
   .cards,
@@ -606,21 +605,32 @@ body.sb-collapsed .brand-text { display: none; }
   background: var(--cat-soft);
 }
 
-/* 마우스 올리기 / 키보드 포커스 / 터치로 열기 */
-.card:hover,
+/* 키보드 포커스 / 터치로 열기 (마우스 올리기는 아래 hover 블록) */
 .card:focus-visible,
 .card.open {
   transform: translateY(-8px);
   box-shadow: 0 18px 36px rgba(11, 61, 92, 0.2);
 }
 .card:focus-visible { outline: 3px solid var(--cat); outline-offset: 3px; }
-.card:hover .card-icon,
 .card.open .card-icon { transform: scale(1.1) rotate(-6deg); }
-.card:hover .card-more,
 .card:focus-visible .card-more,
 .card.open .card-more {
   grid-template-rows: 1fr;
   opacity: 1;
+}
+
+/* 마우스가 있는 기기에서만 '올리면 열기'.
+   휴대폰은 탭하면 hover가 남아버려서, 다시 탭해도 안 닫히는 문제를 막음 */
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 36px rgba(11, 61, 92, 0.2);
+  }
+  .card:hover .card-icon { transform: scale(1.1) rotate(-6deg); }
+  .card:hover .card-more { grid-template-rows: 1fr; opacity: 1; }
+  .spot:hover { z-index: 5; }
+  .spot:hover .card { width: calc(200% + var(--gap, 22px)); }
+  .spot:hover .card h3 { font-size: 1.35rem; }
 }
 
 /* ---------- 코스 ---------- */

@@ -33,11 +33,15 @@ function setGrowDirection() {
 setGrowDirection();
 new ResizeObserver(setGrowDirection).observe(spotsGrid);
 
-// 카드: 마우스가 없는 휴대폰·태블릿은 탭해서 설명 열고 닫기
+// 카드: 마우스가 없는 휴대폰·태블릿은 탭하면 열리고, 한 번 더 탭하면 닫힘
+// (하나를 열면 같은 섹션의 다른 카드는 닫힘)
 allCards.forEach((card) => {
   card.addEventListener("click", () => {
     if (window.matchMedia("(hover: hover)").matches) return;
-    card.classList.toggle("open");
+    const willOpen = !card.classList.contains("open");
+    card.closest(".section").querySelectorAll(".card.open").forEach((c) => c.classList.remove("open"));
+    card.classList.toggle("open", willOpen);
+    if (!willOpen) card.blur();
   });
 });
 
