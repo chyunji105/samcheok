@@ -259,7 +259,7 @@ body.sb-collapsed .brand-text { display: none; }
   /* 직접 찍은 삼척 바다 사진 위에 왼쪽만 살짝 짙게 깔아 글씨가 잘 보이게 */
   background:
     linear-gradient(90deg, rgba(11, 61, 92, 0.6) 0%, rgba(11, 61, 92, 0.3) 45%, rgba(11, 61, 92, 0) 80%),
-    url("images/hhh.jpg") center 62% / cover no-repeat,
+    url("images/hhh.jpg") center calc(62% + var(--bg-shift, 0px)) / cover no-repeat,
     #0b3d5c;
   overflow: hidden;
   padding: 80px 32px 180px;
@@ -433,6 +433,116 @@ body.sb-collapsed .brand-text { display: none; }
 .bento-where .fact b { font-size: 0.85rem; letter-spacing: 0.04em; }
 
 /* ---------- 가볼 곳 ---------- */
+/* 첫 화면 패럴랙스: 글씨는 스크롤 따라 위로 빠지며 흐려짐 */
+.hero-inner { transform: translateY(var(--text-shift, 0px)); opacity: var(--text-fade, 1); will-change: transform; }
+
+/* 동굴 손전등: 동굴 필터를 고르면 섹션이 어두워지고 커서 주변만 밝음 */
+#spots { position: relative; }
+.cave-dark {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  background: radial-gradient(circle 190px at var(--lx, 50%) var(--ly, 50%),
+    rgba(10, 8, 20, 0) 0%, rgba(10, 8, 20, 0.35) 55%, rgba(10, 8, 20, 0.92) 100%);
+}
+#spots.cave-mode .cave-dark { opacity: 1; }
+.cave-tip {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #f3e9d2;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+#spots.cave-mode .filters { position: relative; z-index: 6; }
+
+/* 섹션 내용은 효과 레이어 위로 */
+#spots > :not(.fx) { position: relative; z-index: 1; }
+.fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+#spots > .fx { max-width: none; margin: 0; } /* 내용은 가운데 폭, 효과는 섹션 전체 */
+
+/* 물속 모드: 바다 필터 → 바다색으로 잠기고 거품이 올라옴, 커서 따라 물결 */
+.sea-layer {
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  background: linear-gradient(180deg, #d4f0fa 0%, #7fc8e6 45%, #2a86b8 100%);
+}
+#spots.sea-mode .sea-layer { opacity: 1; }
+.bubble {
+  position: absolute;
+  bottom: -30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.08) 60%);
+  animation: bubbleUp linear infinite;
+  animation-play-state: paused;
+}
+#spots.sea-mode .bubble { animation-play-state: running; }
+@keyframes bubbleUp {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  10%  { opacity: 0.9; }
+  50%  { transform: translate(14px, -55vh); }
+  90%  { opacity: 0.7; }
+  100% { transform: translate(-6px, -110vh); opacity: 0; }
+}
+.ripple-layer { z-index: 4; }
+.ripple {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  margin: -45px 0 0 -45px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  animation: ripple 1.1s ease-out forwards;
+}
+@keyframes ripple {
+  from { transform: scale(0.1); opacity: 0.9; }
+  to   { transform: scale(1.6); opacity: 0; }
+}
+#spots.sea-mode .title { color: var(--sea-deep); }
+
+/* 먹물 번짐: 역사 필터 → 누른 자리에서 먹이 퍼지고 한지 색으로 물듦 */
+.ink-layer { z-index: 0; }
+.ink-splash, .ink-paper {
+  position: absolute;
+  inset: 0;
+  clip-path: circle(0 at var(--ix, 50%) var(--iy, 0));
+}
+.ink-splash { background: #231d19; }
+.ink-paper {
+  background:
+    radial-gradient(ellipse 60% 40% at 85% 15%, rgba(60, 45, 30, 0.08), transparent 70%),
+    radial-gradient(ellipse 50% 50% at 10% 90%, rgba(60, 45, 30, 0.07), transparent 70%),
+    repeating-linear-gradient(97deg, rgba(120, 95, 60, 0.035) 0 2px, transparent 2px 7px),
+    #f1e6cf;
+}
+#spots.history-mode .ink-splash { animation: inkSpread 1.1s cubic-bezier(0.3, 0.7, 0.2, 1) forwards, inkFade 0.6s 0.9s forwards; }
+#spots.history-mode .ink-paper  { animation: inkSpread 1.3s 0.18s cubic-bezier(0.3, 0.7, 0.2, 1) forwards; }
+@keyframes inkSpread {
+  to { clip-path: circle(150% at var(--ix, 50%) var(--iy, 0)); }
+}
+@keyframes inkFade { to { opacity: 0; } }
+#spots.history-mode .title { color: #2a221c; }
+#spots.history-mode .title::after { background: #a8322a; }
+#spots.history-mode .spot:not(.hide) .card {
+  animation: brushIn 0.9s cubic-bezier(0.5, 0, 0.2, 1) both;
+  animation-delay: 0.6s;
+}
+#spots.history-mode .spot:not(.hide) ~ .spot:not(.hide) .card { animation-delay: 0.85s; }
+#spots.history-mode .spot:not(.hide) ~ .spot:not(.hide) ~ .spot:not(.hide) .card { animation-delay: 1.1s; }
+@keyframes brushIn {
+  from { clip-path: inset(0 100% 0 0 round var(--radius)); filter: blur(3px); }
+  to   { clip-path: inset(0 0 0 0 round var(--radius)); filter: blur(0); }
+}
+
 .spots-hint { margin: -26px 0 22px; font-size: 1.05rem; opacity: .85; }
 .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
 .chip {
@@ -579,6 +689,50 @@ body.sb-collapsed .brand-text { display: none; }
   font-size: 0.75rem;
   font-weight: 700;
 }
+
+/* ---------- 먹거리: 오늘 뭐 먹지 룰렛 ---------- */
+.food-pick { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 18px; margin: -18px 0 28px; }
+.pick-btn { border: 0; font: inherit; font-weight: 700; cursor: pointer; }
+.pick-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+.pick-result { font-weight: 700; color: var(--accent); min-height: 1.5em; }
+.food-cards .card { transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s; }
+.food-cards.spinning .card { opacity: 0.55; }
+.food-cards.spinning .card.lit {
+  opacity: 1;
+  transform: translateY(-6px);
+  box-shadow: 0 0 0 3px var(--accent), 0 12px 30px rgba(255, 138, 61, 0.35);
+  transition: none;
+}
+.food-cards .card.picked { box-shadow: 0 0 0 3px var(--accent), var(--shadow); animation: pickedBounce 0.7s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes pickedBounce {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.08) translateY(-10px); }
+  65% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+.pick-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  animation: badgePop 0.4s 0.25s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+@keyframes badgePop { from { transform: scale(0); } to { transform: scale(1); } }
+
+/* ---------- 먹거리: 마우스 올리면(또는 룰렛 불빛이 지나가면) 이모지가 살짝 흔들림 ---------- */
+.emo { display: inline-block; }
+.food-cards .card:is(:hover, :focus-visible, .open, .lit, .picked) .emo { animation: emoSway 1.4s ease-in-out infinite; }
+@keyframes emoSway {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  25% { transform: translateY(-3px) rotate(-7deg); }
+  75% { transform: translateY(-3px) rotate(7deg); }
+}
+
 
 .card-icon {
   width: 56px;
@@ -779,4 +933,6 @@ body.sb-collapsed .brand-text { display: none; }
   * { animation: none !important; transition: none !important; }
   .reveal, .drop { opacity: 1; transform: none; }
   .timeline::before, .timeline li::before, .timeline li > * { opacity: 1; transform: none; }
+  .bubble, .ink-splash { display: none; }
+  #spots.history-mode .ink-paper { clip-path: none; }
 }

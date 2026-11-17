@@ -119,6 +119,10 @@
   <section id="spots" class="section alt">
     <h2 class="title">여긴 꼭 가봐</h2>
     <p class="spots-hint">👇 눌러서 사진 확인</p>
+    <div class="fx sea-layer" id="seaLayer" aria-hidden="true"></div>
+    <div class="fx ripple-layer" id="rippleLayer" aria-hidden="true"></div>
+    <div class="fx ink-layer" aria-hidden="true"><div class="ink-splash"></div><div class="ink-paper"></div></div>
+    <div class="fx cave-dark" id="caveDark" aria-hidden="true"><span class="cave-tip">🔦 마우스를 움직여서 동굴을 비춰봐</span></div>
     <div class="filters" role="tablist">
       <button class="chip active" data-filter="all">전체</button>
       <button class="chip" data-filter="sea">🌊 바다</button>
@@ -240,7 +244,11 @@
   <!-- 먹을 것 -->
   <section id="food" class="section">
     <h2 class="title">이건 먹고 와야 해</h2>
-    <div class="cards cols-3">
+    <div class="food-pick">
+      <button class="btn pick-btn" id="pickBtn" type="button">🎲 오늘 뭐 먹지?</button>
+      <p class="pick-result" id="pickResult" aria-live="polite"></p>
+    </div>
+    <div class="cards cols-3 food-cards">
       <article class="card tone-food" tabindex="0">
         <div class="card-icon">🐟</div>
         <h3>회 한 접시</h3>

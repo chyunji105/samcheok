@@ -15,6 +15,7 @@ chips.forEach((chip) => {
       spot.classList.toggle("hide", !match);
     });
     setGrowDirection();
+    setSpotsMode(filter, chip);
   });
 });
 
@@ -276,5 +277,158 @@ if (seasonSection) {
   seasonSection.querySelector(".cards").addEventListener("mouseleave", () => setTone(null));
   seasonSection.addEventListener("focusout", (e) => {
     if (!seasonSection.contains(e.relatedTarget)) setTone(null);
+  });
+}
+
+// ---------- 동굴 손전등: 커서(손가락) 위치를 따라 빛 이동 ----------
+const spotsSection = document.getElementById("spots");
+const caveDark = document.getElementById("caveDark");
+if (spotsSection && caveDark) {
+  if (!window.matchMedia("(hover: hover)").matches) {
+    caveDark.querySelector(".cave-tip").textContent = "🔦 손가락으로 눌러서 동굴을 비춰봐";
+  }
+  const moveLight = (x, y) => {
+    const r = spotsSection.getBoundingClientRect();
+    caveDark.style.setProperty("--lx", `${x - r.left}px`);
+    caveDark.style.setProperty("--ly", `${y - r.top}px`);
+  };
+  spotsSection.addEventListener("pointermove", (e) => moveLight(e.clientX, e.clientY));
+  spotsSection.addEventListener("pointerdown", (e) => moveLight(e.clientX, e.clientY));
+  spotsSection.addEventListener("touchmove", (e) => {
+    const t = e.touches[0];
+    if (t) moveLight(t.clientX, t.clientY);
+  }, { passive: true });
+}
+
+// ---------- 첫 화면 패럴랙스: 사진은 천천히, 글씨는 빠르게 ----------
+if (hero && !reduceMotion) {
+  let ticking = false;
+  const parallax = () => {
+    const y = Math.min(window.scrollY, hero.offsetHeight);
+    hero.style.setProperty("--bg-shift", `${y * 0.45}px`);
+    hero.style.setProperty("--text-shift", `${y * -0.25}px`);
+    hero.style.setProperty("--text-fade", Math.max(0, 1 - y / (hero.offsetHeight * 0.6)).toFixed(3));
+    ticking = false;
+  };
+  window.addEventListener("scroll", () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(parallax); }
+  }, { passive: true });
+  parallax();
+}
+
+// ---------- 가볼 곳 필터별 분위기: 동굴(손전등) · 바다(물속) · 역사(먹물) ----------
+function setSpotsMode(filter, chip) {
+  const section = document.getElementById("spots");
+  section.classList.remove("cave-mode", "sea-mode", "history-mode");
+  if (filter === "history") {
+    // 누른 버튼 자리에서 먹물이 퍼지도록 시작점 지정
+    const s = section.getBoundingClientRect();
+    const c = chip.getBoundingClientRect();
+    section.style.setProperty("--ix", `${c.left + c.width / 2 - s.left}px`);
+    section.style.setProperty("--iy", `${c.top + c.height / 2 - s.top}px`);
+    void section.offsetWidth; // 애니메이션 처음부터 다시
+  }
+  if (filter !== "all") section.classList.add(`${filter}-mode`);
+}
+
+// 물속 모드: 거품 만들기
+const seaLayer = document.getElementById("seaLayer");
+if (seaLayer && !reduceMotion) {
+  for (let i = 0; i < 22; i++) {
+    const b = document.createElement("span");
+    b.className = "bubble";
+    const size = 6 + Math.random() * 18;
+    b.style.width = b.style.height = `${size}px`;
+    b.style.left = `${Math.random() * 100}%`;
+    b.style.animationDuration = `${6 + Math.random() * 7}s`;
+    b.style.animationDelay = `${-Math.random() * 12}s`;
+    seaLayer.appendChild(b);
+  }
+}
+
+// 물속 모드: 마우스/손가락 자리에 물결
+const rippleLayer = document.getElementById("rippleLayer");
+if (spotsSection && rippleLayer && !reduceMotion) {
+  let lastRipple = 0;
+  const makeRipple = (x, y, force) => {
+    if (!spotsSection.classList.contains("sea-mode")) return;
+    const now = performance.now();
+    if (!force && now - lastRipple < 140) return;
+    lastRipple = now;
+    const r = spotsSection.getBoundingClientRect();
+    const dot = document.createElement("span");
+    dot.className = "ripple";
+    dot.style.left = `${x - r.left}px`;
+    dot.style.top = `${y - r.top}px`;
+    dot.addEventListener("animationend", () => dot.remove());
+    rippleLayer.appendChild(dot);
+  };
+  spotsSection.addEventListener("pointermove", (e) => makeRipple(e.clientX, e.clientY, false));
+  spotsSection.addEventListener("pointerdown", (e) => makeRipple(e.clientX, e.clientY, true));
+}
+
+// ---------- 가볼 곳: 커진 카드가 섹션 밖으로 삐져나오지 않게 섹션을 같이 늘림 ----------
+{
+  const grid = document.querySelector("#spots .spots");
+  const fit = () => {
+    let lowest = 0;
+    grid.querySelectorAll(".spot:not(.hide) .card").forEach((card) => {
+      lowest = Math.max(lowest, card.getBoundingClientRect().bottom);
+    });
+    const overflow = lowest - grid.getBoundingClientRect().bottom;
+    // 섹션 아래 여백(90px) 중 40px까지는 그냥 쓰고, 그보다 더 내려가면 그만큼 섹션을 늘림
+    grid.style.marginBottom = `${Math.max(0, Math.ceil(overflow - 40))}px`;
+  };
+  const ro = new ResizeObserver(fit);
+  grid.querySelectorAll(".card").forEach((card) => ro.observe(card));
+}
+
+// ---------- 먹거리: 이모지만 따로 흔들 수 있게 감싸기 ----------
+const foodCards = [...document.querySelectorAll(".food-cards .card")];
+foodCards.forEach((card) => {
+  const icon = card.querySelector(".card-icon");
+  if (icon) icon.innerHTML = `<span class="emo">${icon.textContent.trim()}</span>`;
+});
+
+// ---------- 먹거리: 오늘 뭐 먹지? 룰렛 ----------
+const pickBtn = document.getElementById("pickBtn");
+const pickResult = document.getElementById("pickResult");
+const foodGrid = document.querySelector(".food-cards");
+if (pickBtn && foodGrid && foodCards.length) {
+  const finish = (card) => {
+    foodGrid.classList.remove("spinning");
+    foodCards.forEach((c) => c.classList.remove("lit"));
+    card.classList.add("picked");
+    card.insertAdjacentHTML("beforeend", '<span class="pick-badge">오늘은 너다!</span>');
+    pickResult.textContent = `오늘은 ${card.querySelector("h3").textContent} 먹으러 가자 😋`;
+    pickBtn.disabled = false;
+    pickBtn.textContent = "🎲 다시 돌리기";
+  };
+
+  pickBtn.addEventListener("click", () => {
+    // 지난 결과 지우기
+    foodCards.forEach((c) => {
+      c.classList.remove("picked", "lit");
+      c.querySelector(".pick-badge")?.remove();
+    });
+    pickResult.textContent = "";
+    const target = Math.floor(Math.random() * foodCards.length);
+    if (reduceMotion) { finish(foodCards[target]); return; }
+
+    pickBtn.disabled = true;
+    pickBtn.textContent = "🎲 고르는 중...";
+    foodGrid.classList.add("spinning");
+    // 세 바퀴 돌고 target에서 멈추기, 끝으로 갈수록 느려짐
+    const steps = foodCards.length * 3 + target;
+    let i = 0;
+    const tick = () => {
+      foodCards.forEach((c) => c.classList.remove("lit"));
+      foodCards[i % foodCards.length].classList.add("lit");
+      if (i === steps) { setTimeout(() => finish(foodCards[target]), 350); return; }
+      const progress = i / steps;
+      i++;
+      setTimeout(tick, 60 + Math.pow(progress, 3) * 380);
+    };
+    tick();
   });
 }
