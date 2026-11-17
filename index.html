@@ -86,6 +86,13 @@
           <ellipse class="land" cx="37.5" cy="332.9" rx="20" ry="10.5" />
           <circle class="land" cx="253.5" cy="78.1" r="4" />
           <circle class="land" cx="303.5" cy="93.6" r="2.5" />
+          <defs>
+            <mask id="routeMask" maskUnits="userSpaceOnUse">
+              <path id="routeMaskPath" d="M59,73 Q110,22 166,81" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" />
+            </mask>
+          </defs>
+          <path id="routePath" class="route" d="M59,73 Q110,22 166,81" mask="url(#routeMask)" />
+          <text id="routeBus" class="route-bus" text-anchor="middle" dominant-baseline="central" x="59" y="73">🚌</text>
           <circle cx="59" cy="73" r="5" class="dot-seoul" />
           <text x="51" y="77" class="map-label" text-anchor="end">서울</text>
           <circle cx="163.5" cy="221.3" r="4" class="dot-seoul" />

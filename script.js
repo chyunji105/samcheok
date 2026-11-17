@@ -200,3 +200,81 @@ if (nowCard) {
   badge.textContent = "지금 이 계절";
   nowCard.appendChild(badge);
 }
+
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// ---------- 삼척이 어디야?: 서울 → 삼척 경로 그리며 버스 이동 ----------
+const routePath = document.getElementById("routePath");
+const routeMaskPath = document.getElementById("routeMaskPath");
+const routeBus = document.getElementById("routeBus");
+const mapCard = document.querySelector(".map-card");
+if (routePath && routeMaskPath && routeBus && mapCard) {
+  const len = routePath.getTotalLength();
+  routeMaskPath.style.strokeDasharray = len;
+  routeMaskPath.style.strokeDashoffset = reduceMotion ? 0 : len;
+  let running = false;
+
+  const playRoute = () => {
+    if (reduceMotion || running) return;
+    running = true;
+    const duration = 2200;
+    const start = performance.now();
+    routeBus.classList.add("moving");
+    const step = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      const p = routePath.getPointAtLength(len * eased);
+      routeBus.setAttribute("x", p.x);
+      routeBus.setAttribute("y", p.y - 9);
+      routeMaskPath.style.strokeDashoffset = len * (1 - eased);
+      if (t < 1) requestAnimationFrame(step);
+      else setTimeout(() => { routeBus.classList.remove("moving"); running = false; }, 600);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const mapObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) { setTimeout(playRoute, 400); mapObserver.disconnect(); }
+  }, { threshold: 0.5 });
+  mapObserver.observe(mapCard);
+  // 지도를 누르면 다시 출발
+  mapCard.addEventListener("click", () => {
+    if (running) return;
+    routeMaskPath.style.strokeDashoffset = len;
+    playRoute();
+  });
+}
+
+// ---------- 1박 2일 코스: 보이면 타임라인 그리기 ----------
+const dayCards = document.querySelectorAll(".day-card");
+const dayObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("drawn");
+      dayObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+dayCards.forEach((card) => dayObserver.observe(card));
+
+// ---------- 언제 가면 좋아?: 고른 계절 색으로 배경 바꾸기 ----------
+const seasonSection = document.getElementById("season");
+if (seasonSection) {
+  const setTone = (tone) => {
+    if (tone) seasonSection.dataset.tone = tone;
+    else delete seasonSection.dataset.tone;
+  };
+  seasonSection.querySelectorAll("[data-season]").forEach((card) => {
+    card.addEventListener("mouseenter", () => setTone(card.dataset.season));
+    card.addEventListener("focus", () => setTone(card.dataset.season));
+    card.addEventListener("click", () => {
+      if (window.matchMedia("(hover: hover)").matches) return;
+      // 휴대폰: 탭해서 열면 그 계절 색, 닫으면 원래대로
+      setTimeout(() => setTone(card.classList.contains("open") ? card.dataset.season : seasonSection.querySelector(".card.open")?.dataset.season), 0);
+    });
+  });
+  seasonSection.querySelector(".cards").addEventListener("mouseleave", () => setTone(null));
+  seasonSection.addEventListener("focusout", (e) => {
+    if (!seasonSection.contains(e.relatedTarget)) setTone(null);
+  });
+}
